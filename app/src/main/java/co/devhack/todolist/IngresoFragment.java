@@ -35,6 +35,7 @@ public class IngresoFragment extends Fragment {
     private static final String TAG = "IngresoFragment";
     private ProgressDialog progress;
 
+    // Se recupera los controles con Butterknife
     @Bind(R.id.txtemail)
     EditText txtEmail;
 
@@ -58,6 +59,7 @@ public class IngresoFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        // Se crea instancia para la auth de firebase
         mAuth = FirebaseAuth.getInstance();
 
         return view;
@@ -65,6 +67,7 @@ public class IngresoFragment extends Fragment {
 
     @OnClick(R.id.btnCrearCuenta)
     public void clickCrearCuenta() {
+        // Permite asignar un fragment a un activity
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frameUsuario, new RegistroFragment());
         transaction.commit();
@@ -75,6 +78,7 @@ public class IngresoFragment extends Fragment {
 
         progress = ProgressDialog.show(getActivity(), "", "Cargando...");
 
+        // Se autentica con Firebase Auth por medio de un e-mail y password
         mAuth.signInWithEmailAndPassword(txtEmail.getText().toString(), txtPassword.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -82,6 +86,7 @@ public class IngresoFragment extends Fragment {
                         progress.dismiss();
 
                         if (task.isSuccessful()) {
+                            // Si la autenticaccion fue correcta se redirecciona a la actividad de tareas
                             Intent intent = new Intent(getActivity(), TodoListActivity.class);
                             getActivity().startActivity(intent);
 

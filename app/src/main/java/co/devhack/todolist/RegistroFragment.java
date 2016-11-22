@@ -35,6 +35,7 @@ public class RegistroFragment extends Fragment {
     private FirebaseAuth mAuth;
     private ProgressDialog progress;
 
+    // Se recupera los controles con Butterknife
     @Bind(R.id.txtEmailRegistro)
     EditText txtEmailRegistro;
 
@@ -56,6 +57,7 @@ public class RegistroFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_registro, container, false);
         ButterKnife.bind(this, view);
 
+        // Se crea instancia para la auth de firebase
         mAuth = FirebaseAuth.getInstance();
 
         return view;
@@ -69,6 +71,7 @@ public class RegistroFragment extends Fragment {
 
         progress = ProgressDialog.show(getActivity(), "", "Cargando...");
 
+        // Se crea una cuenta con un e-mail y password en Firebase Auth
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -76,6 +79,8 @@ public class RegistroFragment extends Fragment {
                         progress.dismiss();
 
                         if (task.isSuccessful()) {
+                            // Si fue exitosa la creación de la cuenta
+                            // se redirecciona a la actividad de tareas
                             Intent intent = new Intent(getActivity(), TodoListActivity.class);
                             getActivity().startActivity(intent);
                         } else {
